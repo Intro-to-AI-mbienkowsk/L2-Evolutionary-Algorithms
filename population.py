@@ -1,6 +1,12 @@
 from specimen import Specimen
+from constants import DEFAULT_POPULATION
 
 
 class Population:
-    def __init__(self, specimens: list[Specimen], num_of_specimens: int, specimen_type: type):
-        self._specimens = specimens if specimens is not None else [specimen_type() for i in range(num_of_specimens)]
+    def __init__(self,
+                 goal_function: callable,
+                 crossbreeding_algorithm,
+                 specimen_type: type,
+                 specimens: list[Specimen] = None,
+                 num_of_specimens=DEFAULT_POPULATION):
+        ...

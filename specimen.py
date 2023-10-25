@@ -13,7 +13,3 @@ class Specimen(ABC):
     @abstractmethod
     def mutate(self, mutation_params):
         ...
-
-    @abstractmethod
-    def crossbreed(self, other, crossbreed_params):
-        ...
