@@ -1,9 +1,7 @@
-from enum import Enum
+import enum
 
 DEFAULT_POPULATION = 100
-CROSSBREEDING_PROBABILITY = 0.4
 MUTATION_STRENGTH = 0.2
-
 CITIES = [[35, 51],
           [113, 213],
           [82, 280],
@@ -27,6 +25,5 @@ CITIES = [[35, 51],
           ]
 
 
-class CrossbreedingAlgorithm(Enum):
-    SINGLE_POINT = 1
-    DOUBLE_POINT = 2
+class ReproductionMethod(enum):
+    TOURNEY = 1
