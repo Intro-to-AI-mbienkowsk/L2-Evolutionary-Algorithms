@@ -1,5 +1,8 @@
 import numpy as np
 from abc import ABC, abstractmethod
+import random
+from constants import CITIES
+import copy
 
 
 class Specimen(ABC):
@@ -9,6 +12,10 @@ class Specimen(ABC):
     @property
     def value(self):
         return self._value
+
+    @value.setter
+    def value(self, new_value):
+        self._value = new_value
 
     @abstractmethod
     def mutate(self, mutation_params):
@@ -21,8 +28,8 @@ class Specimen(ABC):
 
 
 class TSPSpecimen(Specimen):
-    def mutate(self, mutation_params):
-        pass
+    def mutate(self, mutation_params: dict):
+        ...
 
     def generate_random(self):
-        pass
+        return np.array(random.shuffle(copy.copy(CITIES)))
