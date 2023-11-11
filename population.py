@@ -1,6 +1,6 @@
 import numpy as np
 from specimen import Specimen, TSPSpecimen
-from constants import DEFAULT_POPULATION, MUTATION_STRENGTH, ReproductionMethod
+from constants import DEFAULT_POPULATION, MUTATION_STRENGTH, ReproductionMethod, CITIES
 from abc import ABC, abstractmethod
 
 
@@ -29,6 +29,10 @@ class Population(ABC):
 
     def generate_random_population(self, n) -> np.ndarray:
         return np.array([self.specimen_type.generate_random() for _ in range(n)])
+
+    def mutate(self):
+        for specimen in self.specimens:
+            specimen.mutate(self.mutation_strength)
 
 
 class TSPPopulation(Population):
