@@ -1,5 +1,4 @@
 import numpy as np
-
 from specimen import Specimen, TSPSpecimen
 from constants import DEFAULT_POPULATION, MUTATION_STRENGTH, ReproductionMethod
 from abc import ABC, abstractmethod
@@ -10,13 +9,13 @@ class Population(ABC):
                  goal_function: callable,
                  specimen_type: type,
                  mutation_strength,
-                 specimens: list[Specimen],
+                 specimens: np.ndarray[Specimen],
                  num_of_specimens,
                  reproduction_method: ReproductionMethod):
         self.goal_function = goal_function
         self.specimen_type = specimen_type
         self.mutation_strength = mutation_strength
-        if specimens is not None and len(specimens != num_of_specimens):
+        if specimens is not None and len(specimens) != num_of_specimens:
             raise ValueError("Population size not equal to num_of_specimens.")
         self.specimens = specimens if specimens is not None else self.generate_random_population(num_of_specimens)
         self.reproduction_method = reproduction_method
@@ -34,12 +33,13 @@ class Population(ABC):
 
 class TSPPopulation(Population):
     @staticmethod
-    def goal_function(specimen):
-        ...
+    def goal_function(specimen: TSPSpecimen):
+        return sum([np.linalg.norm(specimen.value[i] - specimen.value[i + 1])
+                    for i in range(len(specimen.value))])
 
     def __init__(self,
                  mutation_strength=MUTATION_STRENGTH,
-                 specimens: list[Specimen] = None,
+                 specimens: np.ndarray[Specimen] = None,
                  num_of_specimens=DEFAULT_POPULATION,
                  reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY):
         super().__init__(self.goal_function, TSPSpecimen, mutation_strength, specimens, num_of_specimens,
@@ -47,4 +47,12 @@ class TSPPopulation(Population):
 
     def reproduce(self):
         if self.reproduction_method == ReproductionMethod.TOURNEY:
-            ...
+            fitness = self.goal_function(self.specimens)
+            # normalize probabilities
+            probs = fitness/np.sum(fitness)
+            new_population = []
+            for i in range(len(self.specimens)):
+                new_population.append(sorted(
+                    [np.random.choice(self.specimens, p=fitness, size=2)],
+                    key=self.goal_function))
+            self.specimens = new_population
