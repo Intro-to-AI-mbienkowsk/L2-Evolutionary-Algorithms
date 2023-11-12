@@ -1,7 +1,8 @@
 import numpy as np
 from specimen import Specimen, TSPSpecimen
-from constants import DEFAULT_POPULATION, MUTATION_STRENGTH, ReproductionMethod, CITIES
+from constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, ReproductionMethod, CITIES
 from abc import ABC, abstractmethod
+import random
 import statistics
 
 
@@ -55,12 +56,10 @@ class TSPPopulation(Population):
 
     def reproduce(self):
         if self.reproduction_method == ReproductionMethod.TOURNEY:
-            fitness = self.goal_function(self.specimens)
-            # normalize probabilities
-            probs = fitness/np.sum(fitness)
+            probs = np.array([1/self.goal_function(specimen) for specimen in self.specimens])
             new_population = []
-            for i in range(len(self.specimens)):
+            for _ in range(len(self.specimens)):
                 new_population.append(sorted(
-                    [np.random.choice(self.specimens, p=fitness, size=2)],
-                    key=self.goal_function))
+                    random.choices(self.specimens, weights=probs, k=2),
+                    key=self.goal_function)[0])
             self.specimens = new_population
