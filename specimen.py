@@ -28,11 +28,16 @@ class Specimen(ABC):
 
 
 class TSPSpecimen(Specimen):
+    def __init__(self, value):
+        super().__init__(value)
+
     def mutate(self, mutation_strength: float):
         # Swap cities at random indices (i, j) len(self.value( * strentgh of mutation times
-        for _ in range(round(len(self.value)*mutation_strength)):
-            i, j = random.randint(0, len(self.value)), random.randint(0, len(self.value))
-            self.value[i], self.value[j] = self.value[j], self.value[i]
+        for _ in range(round(len(self.value) * mutation_strength / 2)):
+            i, j = random.randint(0, len(self.value) - 1), random.randint(0, len(self.value) - 1)
+            temp = self.value[i].copy()
+            self.value[i] = self.value[j]
+            self.value[j] = temp
 
     @staticmethod
     def generate_random():
