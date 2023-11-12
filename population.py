@@ -2,6 +2,7 @@ import numpy as np
 from specimen import Specimen, TSPSpecimen
 from constants import DEFAULT_POPULATION, MUTATION_STRENGTH, ReproductionMethod, CITIES
 from abc import ABC, abstractmethod
+import statistics
 
 
 class Population(ABC):
@@ -26,6 +27,9 @@ class Population(ABC):
 
     def find_best_specimen(self):
         return sorted(self.specimens, key=self.goal_function)[0]
+
+    def average_goal_function_value(self):
+        return statistics.mean(self.goal_function(self.specimens))
 
     def generate_random_population(self, n) -> np.ndarray:
         return np.array([self.specimen_type.generate_random() for _ in range(n)])
