@@ -43,10 +43,10 @@ class TSPPopulation(Population):
     @staticmethod
     def goal_function(specimen: TSPSpecimen):
         return sum([np.linalg.norm(specimen.value[i] - specimen.value[i + 1])
-                    for i in range(len(specimen.value))])
+                    for i in range(len(specimen.value) - 1)])
 
     def __init__(self,
-                 mutation_strength=MUTATION_STRENGTH,
+                 mutation_strength=DEFAULT_MUTATION_STRENGTH,
                  specimens: np.ndarray[Specimen] = None,
                  num_of_specimens=DEFAULT_POPULATION,
                  reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY):
