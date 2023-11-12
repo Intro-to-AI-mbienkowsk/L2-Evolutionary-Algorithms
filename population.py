@@ -25,11 +25,11 @@ class Population(ABC):
     def reproduce(self):
         ...
 
-    def find_best_specimen(self):
-        return sorted(self.specimens, key=self.goal_function)[0]
+    def best_specimen_value(self):
+        return sorted([self.goal_function(specimen) for specimen in self.specimens])[0]
 
     def average_goal_function_value(self):
-        return statistics.mean(self.goal_function(self.specimens))
+        return statistics.mean([self.goal_function(specimen) for specimen in self.specimens])
 
     def generate_random_population(self, n) -> np.ndarray:
         return np.array([self.specimen_type.generate_random() for _ in range(n)])
