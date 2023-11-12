@@ -34,5 +34,6 @@ class TSPSpecimen(Specimen):
             i, j = random.randint(0, len(self.value)), random.randint(0, len(self.value))
             self.value[i], self.value[j] = self.value[j], self.value[i]
 
-    def generate_random(self):
-        return np.array(random.shuffle(copy.copy(CITIES)))
+    @staticmethod
+    def generate_random():
+        return TSPSpecimen(np.array(random.sample(CITIES, k=len(CITIES))))
