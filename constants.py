@@ -1,7 +1,7 @@
 import enum
 
-DEFAULT_POPULATION = 100
-MUTATION_STRENGTH = 0.2
+DEFAULT_POPULATION = 50
+DEFAULT_MUTATION_STRENGTH = 0.4
 CITIES = [[35, 51],
           [113, 213],
           [82, 280],
@@ -23,7 +23,8 @@ CITIES = [[35, 51],
           [383, 79],
           [226, 343]
           ]
+DEFAULT_EPOCHS = 20
 
 
-class ReproductionMethod(enum):
+class ReproductionMethod(enum.Enum):
     TOURNEY = 1
