@@ -1,9 +1,10 @@
 import numpy as np
 from specimen import Specimen, TSPSpecimen
-from constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, ReproductionMethod, CITIES
+from constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, ReproductionMethod, SuccessionMethod
 from abc import ABC, abstractmethod
 import random
 import statistics
+from copy import deepcopy
 
 
 class Population(ABC):
@@ -52,16 +53,18 @@ class Population(ABC):
 class TSPPopulation(Population):
     @staticmethod
     def goal_function(specimen: TSPSpecimen):
-        return sum([np.linalg.norm(specimen.value[i] - specimen.value[i + 1])
-                    for i in range(len(specimen.value) - 1)])
+        return sum([np.linalg.norm(specimen.value[i] - specimen.value[(i + 1) % len(specimen.value)])
+                    for i in range(len(specimen.value))])
 
     def __init__(self,
                  mutation_strength=DEFAULT_MUTATION_STRENGTH,
                  specimens: np.ndarray[Specimen] = None,
                  num_of_specimens=DEFAULT_POPULATION,
                  reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY):
+                 reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY,
+                 succession: SuccessionMethod = SuccessionMethod.BEST_FROM_SUPERSET):
         super().__init__(self.goal_function, TSPSpecimen, mutation_strength, specimens, num_of_specimens,
-                         reproduction_method)
+                         reproduction_method, succession)
 
     def reproduce(self):
         if self.reproduction_method == ReproductionMethod.TOURNEY:
