@@ -2,7 +2,6 @@ import numpy as np
 from abc import ABC, abstractmethod
 import random
 from constants import CITIES
-import copy
 
 
 class Specimen(ABC):
@@ -32,7 +31,7 @@ class TSPSpecimen(Specimen):
         super().__init__(value)
 
     def mutate(self, mutation_strength: float):
-        # Swap cities at random indices (i, j) len(self.value( * strentgh of mutation times
+        # Swap cities at random indices (i, j) len(self.value( * strength of mutation times
         for _ in range(round(len(self.value) * mutation_strength / 2)):
             i, j = random.randint(0, len(self.value) - 1), random.randint(0, len(self.value) - 1)
             temp = self.value[i].copy()
