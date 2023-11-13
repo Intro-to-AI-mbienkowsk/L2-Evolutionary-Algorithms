@@ -60,18 +60,27 @@ class TSPPopulation(Population):
                  mutation_strength=DEFAULT_MUTATION_STRENGTH,
                  specimens: np.ndarray[Specimen] = None,
                  num_of_specimens=DEFAULT_POPULATION,
-                 reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY):
                  reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY,
                  succession: SuccessionMethod = SuccessionMethod.BEST_FROM_SUPERSET):
         super().__init__(self.goal_function, TSPSpecimen, mutation_strength, specimens, num_of_specimens,
                          reproduction_method, succession)
 
     def reproduce(self):
+        # todo: think about refactoring
+        offspring = []
+        weights = [self.goal_function(specimen) for specimen in self.specimens]
         if self.reproduction_method == ReproductionMethod.TOURNEY:
             probs = np.array([1/self.goal_function(specimen) for specimen in self.specimens])
             new_population = []
             for _ in range(len(self.specimens)):
-                new_population.append(sorted(
-                    random.choices(self.specimens, weights=probs, k=2),
-                    key=self.goal_function)[0])
-            self.specimens = new_population
+                offspring.append(deepcopy(sorted(
+                    random.choices(self.specimens, k=2),
+                    key=self.goal_function)[0]))
+
+        elif self.reproduction_method == ReproductionMethod.WEIGHTED_TOURNEY:
+            for _ in range(len(self.specimens)):
+                offspring.append(deepcopy(sorted(
+                    random.choices(self.specimens, k=2, weights=weights),
+                    key=self.goal_function)[0]))
+
+        return np.array(offspring)
