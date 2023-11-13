@@ -70,8 +70,6 @@ class TSPPopulation(Population):
         offspring = []
         weights = [self.goal_function(specimen) for specimen in self.specimens]
         if self.reproduction_method == ReproductionMethod.TOURNEY:
-            probs = np.array([1/self.goal_function(specimen) for specimen in self.specimens])
-            new_population = []
             for _ in range(len(self.specimens)):
                 offspring.append(deepcopy(sorted(
                     random.choices(self.specimens, k=2),
