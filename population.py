@@ -13,7 +13,8 @@ class Population(ABC):
                  mutation_strength,
                  specimens: np.ndarray[Specimen],
                  num_of_specimens,
-                 reproduction_method: ReproductionMethod):
+                 reproduction_method: ReproductionMethod,
+                 succession: SuccessionMethod):
         self.goal_function = goal_function
         self.specimen_type = specimen_type
         self.mutation_strength = mutation_strength
@@ -21,10 +22,18 @@ class Population(ABC):
             raise ValueError("Population size not equal to num_of_specimens.")
         self.specimens = specimens if specimens is not None else self.generate_random_population(num_of_specimens)
         self.reproduction_method = reproduction_method
+        self.succession_method = succession
 
     @abstractmethod
     def reproduce(self):
         ...
+
+    def succession(self, offspring):
+        if self.succession_method == SuccessionMethod.BEST_FROM_SUPERSET:
+            superset = [specimen for specimen in self.specimens] + [specimen for specimen in offspring]
+            self.specimens = sorted(superset, key=self.goal_function)[:len(self.specimens)]
+        else:
+            raise NotImplementedError()
 
     def best_specimen_value(self):
         return sorted([self.goal_function(specimen) for specimen in self.specimens])[0]
