@@ -1,7 +1,7 @@
 import enum
 
-DEFAULT_POPULATION = 50
-DEFAULT_MUTATION_STRENGTH = 0.4
+DEFAULT_POPULATION = 300
+DEFAULT_MUTATION_STRENGTH = .1
 CITIES = [[35, 51],
           [113, 213],
           [82, 280],
@@ -23,8 +23,18 @@ CITIES = [[35, 51],
           [383, 79],
           [226, 343]
           ]
-DEFAULT_EPOCHS = 20
+DEFAULT_EPOCHS = 1000
 
 
 class ReproductionMethod(enum.Enum):
-    TOURNEY = 1
+    TOURNEY = 1,
+    WEIGHTED_TOURNEY = 2
+
+
+class SuccessionMethod(enum.Enum):
+    BEST_FROM_SUPERSET = 1,
+    ELITE = 2
+
+class MutationMethod(enum.Enum):
+    SWAP_N_PAIRS = 1,
+    SWAP_EACH_ELEM = 2
