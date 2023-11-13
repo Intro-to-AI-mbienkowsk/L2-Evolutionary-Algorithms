@@ -9,8 +9,9 @@ class Evolution:
         self.epochs = epochs
 
     def perform_epoch(self):
-        self.population.reproduce()
-        self.population.mutate()
+        offspring = self.population.reproduce()
+        self.population.mutate(offspring)
+        self.population.succession(offspring)
         return self.population.best_specimen_value(), self.population.average_goal_function_value()
 
     def evolve(self):

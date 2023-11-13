@@ -45,8 +45,8 @@ class Population(ABC):
     def generate_random_population(self, n) -> np.ndarray:
         return np.array([self.specimen_type.generate_random() for _ in range(n)])
 
-    def mutate(self):
-        for specimen in self.specimens:
+    def mutate(self, specimens):
+        for specimen in specimens:
             specimen.mutate(self.mutation_strength)
 
 
