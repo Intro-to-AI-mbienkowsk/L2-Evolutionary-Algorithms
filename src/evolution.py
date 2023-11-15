@@ -19,3 +19,15 @@ class Evolution:
             best, avg = self.perform_epoch()
             self.best_specimens.append(best)
             self.average_specimens.append(avg)
+
+    def generate_description(self, best_val):
+        title = "Parameters:\n"
+        best = f"Best specimen out of all epochs reached the path length of {best_val}\n"
+        pop_message = f"Population size: {len(self.population.specimens)}\n"
+        mutation_message = f"Mutation strength: {self.population.mutation_strength}\n"
+        num_epochs = f"Number of epochs: {self.epochs}\n"
+        repr_method = "Reproduction method: " + \
+                      ("tourney" if self.population.reproduction_method == 1 else "weighted tourney") + "\n"
+        succession = "Succession method: " + ("loose elite" if self.population.succession_method == 1 else
+                                              f"tight elite of {self.population.elite_size}") + "\n"
+        return title + best + pop_message + mutation_message + num_epochs + repr_method + succession
