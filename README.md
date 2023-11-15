@@ -18,9 +18,9 @@ ewolucji wyświetla wykres obrazujący postęp algorytmu na przestrzeni kolejnyc
 - `-s [float]` - siła mutacji
 - `-e [int]` - liczba pokoleń do obliczenia
 Wszystkie argumenty posiadają domyślne wartości zadane w pliku `src/constants.py`, więc aby uruchomić skrypt dla nich,
-należy po prostu z linii komendy uruchomić skrypt: `python3 -m main.py`
+należy po prostu z linii komendy uruchomić skrypt: `python3 -m main`
 Przykładowe zawołanie skryptu dla 300 pokoleń populacji 130 osobników o sile mutacji 0.3:
-`python3 -m main.py -p 130 -s 0.3 -e 300`
+`python3 -m main -p 130 -s 0.3 -e 300`
 
 ## Krótki opis rozwiązania
 Zastosowano algorytm ewolucyjny bez krzyżowania, o mutacji polegającej na zamianie losowych par genów
