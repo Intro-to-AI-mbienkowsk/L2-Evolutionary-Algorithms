@@ -1,6 +1,6 @@
 import enum
 
-DEFAULT_POPULATION = 300
+DEFAULT_POPULATION = 100
 DEFAULT_MUTATION_STRENGTH = .1
 CITIES = [[35, 51],
           [113, 213],
@@ -23,7 +23,7 @@ CITIES = [[35, 51],
           [383, 79],
           [226, 343]
           ]
-DEFAULT_EPOCHS = 1000
+DEFAULT_EPOCHS = 100
 
 
 class ReproductionMethod(enum.Enum):

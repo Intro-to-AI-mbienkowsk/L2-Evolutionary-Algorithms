@@ -1,4 +1,4 @@
-from population import Population
+from src.population import Population
 
 
 class Evolution:

@@ -1,6 +1,6 @@
 import numpy as np
-from specimen import Specimen, TSPSpecimen
-from constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, ReproductionMethod, SuccessionMethod
+from src.specimen import Specimen, TSPSpecimen
+from src.constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, ReproductionMethod, SuccessionMethod
 from abc import ABC, abstractmethod
 import random
 import statistics

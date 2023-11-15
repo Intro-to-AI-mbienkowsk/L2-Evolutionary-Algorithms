@@ -1,7 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 import random
-from constants import CITIES
+from src.constants import CITIES
 
 
 class Specimen(ABC):

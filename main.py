@@ -1,6 +1,6 @@
-from evolution import Evolution
-from population import TSPPopulation
-from constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, DEFAULT_EPOCHS
+from src.evolution import Evolution
+from src.population import TSPPopulation
+from src.constants import DEFAULT_POPULATION, DEFAULT_MUTATION_STRENGTH, DEFAULT_EPOCHS
 from argparse import ArgumentParser
 import matplotlib.pyplot as plt
 import numpy as np
