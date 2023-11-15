@@ -66,19 +66,12 @@ class TSPPopulation(Population):
                          reproduction_method, succession)
 
     def reproduce(self):
-        # todo: think about refactoring
         offspring = []
-        weights = [self.goal_function(specimen) for specimen in self.specimens]
-        if self.reproduction_method == ReproductionMethod.TOURNEY:
-            for _ in range(len(self.specimens)):
-                offspring.append(deepcopy(sorted(
-                    random.choices(self.specimens, k=2),
-                    key=self.goal_function)[0]))
+        weights = [self.goal_function(specimen) for specimen in self.specimens] \
+            if self.reproduction_method == ReproductionMethod.WEIGHTED_TOURNEY else [1 for _ in self.specimens]
 
-        elif self.reproduction_method == ReproductionMethod.WEIGHTED_TOURNEY:
-            for _ in range(len(self.specimens)):
-                offspring.append(deepcopy(sorted(
-                    random.choices(self.specimens, k=2, weights=weights),
-                    key=self.goal_function)[0]))
+        for _ in range(len(self.specimens)):
+            offspring.append(deepcopy(
+                sorted(random.choices(self.specimens, k=2,  weights=weights), key=self.goal_function)[0]))
 
         return np.array(offspring)

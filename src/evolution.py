@@ -15,7 +15,6 @@ class Evolution:
         return self.population.best_specimen_value(), self.population.average_goal_function_value()
 
     def evolve(self):
-        # todo: think about whether we should include the first epoch in the plots
         for _ in range(self.epochs):
             best, avg = self.perform_epoch()
             self.best_specimens.append(best)
