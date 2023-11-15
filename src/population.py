@@ -27,6 +27,8 @@ class Population(ABC):
         self.succession_method = succession
         if self.succession_method == SuccessionMethod.SET_ELITE:
             self.elite_size = elite_size if elite_size is not None else self.default_elite_size()
+            if not 1 < self.elite_size < len(self.specimens):
+                raise ValueError("Elite size cannot be larger than the population and has to be positive.")
 
     @abstractmethod
     def reproduce(self):
@@ -43,6 +45,8 @@ class Population(ABC):
             elite = sorted(self.specimens, key=self.goal_function)[:self.elite_size]
             offspring = sorted(offspring, key=self.goal_function)[:-self.elite_size]
             self.specimens = elite + offspring
+        elif self.succession_method == SuccessionMethod.GENERATIONAL:
+            self.specimens = offspring
 
     def best_specimen_value(self):
         return sorted([self.goal_function(specimen) for specimen in self.specimens])[0]
@@ -56,6 +60,20 @@ class Population(ABC):
     def mutate(self, specimens):
         for specimen in specimens:
             specimen.mutate(self.mutation_strength)
+
+    def generate_succession_description(self):
+        prefix = "Succession method: "
+        if self.succession_method == SuccessionMethod.GENERATIONAL:
+            return prefix + "Generational\n"
+        elif self.succession_method == SuccessionMethod.BEST_FROM_SUPERSET:
+            return prefix + "Loose elite\n"
+        else:
+            return prefix + f"Tight elite of {self.elite_size}\n"
+
+    def generate_reproduction_description(self):
+        prefix = "Reproduction method: "
+        return prefix + "Tourney\n" if self.reproduction_method == ReproductionMethod.TOURNEY \
+            else prefix + "Weighted tourney\n"
 
 
 class TSPPopulation(Population):
@@ -82,5 +100,4 @@ class TSPPopulation(Population):
         for _ in range(len(self.specimens)):
             offspring.append(deepcopy(
                 sorted(random.choices(self.specimens, k=2, weights=weights), key=self.goal_function)[0]))
-
         return np.array(offspring)

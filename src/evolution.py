@@ -1,5 +1,5 @@
 from src.population import Population
-
+from src.constants import ReproductionMethod, SuccessionMethod
 
 class Evolution:
     def __init__(self, population: Population, epochs: int):
@@ -26,8 +26,6 @@ class Evolution:
         pop_message = f"Population size: {len(self.population.specimens)}\n"
         mutation_message = f"Mutation strength: {self.population.mutation_strength}\n"
         num_epochs = f"Number of epochs: {self.epochs}\n"
-        repr_method = "Reproduction method: " + \
-                      ("tourney" if self.population.reproduction_method == 1 else "weighted tourney") + "\n"
-        succession = "Succession method: " + ("loose elite" if self.population.succession_method == 1 else
-                                              f"tight elite of {self.population.elite_size}") + "\n"
+        repr_method = self.population.generate_reproduction_description()
+        succession = self.population.generate_succession_description()
         return title + best + pop_message + mutation_message + num_epochs + repr_method + succession

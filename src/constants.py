@@ -36,7 +36,8 @@ DEFAULT_REPRODUCTION = ReproductionMethod.TOURNEY
 
 class SuccessionMethod(enum.Enum):
     BEST_FROM_SUPERSET = 1,
-    SET_ELITE = 2
+    SET_ELITE = 2,
+    GENERATIONAL = 3
 
 
 DEFAULT_SUCCESSION = SuccessionMethod.SET_ELITE
