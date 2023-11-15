@@ -31,10 +31,12 @@ class ReproductionMethod(enum.Enum):
     WEIGHTED_TOURNEY = 2
 
 
+DEFAULT_REPRODUCTION = ReproductionMethod.TOURNEY
+
+
 class SuccessionMethod(enum.Enum):
     BEST_FROM_SUPERSET = 1,
-    ELITE = 2
+    SET_ELITE = 2
 
-class MutationMethod(enum.Enum):
-    SWAP_N_PAIRS = 1,
-    SWAP_EACH_ELEM = 2
+
+DEFAULT_SUCCESSION = SuccessionMethod.SET_ELITE

@@ -15,7 +15,8 @@ class Population(ABC):
                  specimens: np.ndarray[Specimen],
                  num_of_specimens,
                  reproduction_method: ReproductionMethod,
-                 succession: SuccessionMethod):
+                 succession: SuccessionMethod,
+                 elite_size: int or None):
         self.goal_function = goal_function
         self.specimen_type = specimen_type
         self.mutation_strength = mutation_strength
@@ -24,17 +25,24 @@ class Population(ABC):
         self.specimens = specimens if specimens is not None else self.generate_random_population(num_of_specimens)
         self.reproduction_method = reproduction_method
         self.succession_method = succession
+        if self.succession_method == SuccessionMethod.SET_ELITE:
+            self.elite_size = elite_size if elite_size is not None else self.default_elite_size()
 
     @abstractmethod
     def reproduce(self):
         ...
 
+    def default_elite_size(self):
+        return len(self.specimens) // 5
+
     def succession(self, offspring):
         if self.succession_method == SuccessionMethod.BEST_FROM_SUPERSET:
             superset = [specimen for specimen in self.specimens] + [specimen for specimen in offspring]
             self.specimens = sorted(superset, key=self.goal_function)[:len(self.specimens)]
-        else:
-            raise NotImplementedError()
+        elif self.succession_method == SuccessionMethod.SET_ELITE:
+            elite = sorted(self.specimens, key=self.goal_function)[:self.elite_size]
+            offspring = sorted(offspring, key=self.goal_function)[:-self.elite_size]
+            self.specimens = elite + offspring
 
     def best_specimen_value(self):
         return sorted([self.goal_function(specimen) for specimen in self.specimens])[0]
@@ -61,9 +69,10 @@ class TSPPopulation(Population):
                  specimens: np.ndarray[Specimen] = None,
                  num_of_specimens=DEFAULT_POPULATION,
                  reproduction_method: ReproductionMethod = ReproductionMethod.TOURNEY,
-                 succession: SuccessionMethod = SuccessionMethod.BEST_FROM_SUPERSET):
+                 succession: SuccessionMethod = SuccessionMethod.BEST_FROM_SUPERSET,
+                 elite_size: int or None = None):
         super().__init__(self.goal_function, TSPSpecimen, mutation_strength, specimens, num_of_specimens,
-                         reproduction_method, succession)
+                         reproduction_method, succession, elite_size)
 
     def reproduce(self):
         offspring = []
@@ -72,6 +81,6 @@ class TSPPopulation(Population):
 
         for _ in range(len(self.specimens)):
             offspring.append(deepcopy(
-                sorted(random.choices(self.specimens, k=2,  weights=weights), key=self.goal_function)[0]))
+                sorted(random.choices(self.specimens, k=2, weights=weights), key=self.goal_function)[0]))
 
         return np.array(offspring)
