@@ -43,7 +43,8 @@ def main():
     parser.add_argument('--elite-size', type=int, default=None,
                         help='Size of the elite (applies only when elite succession is chosen)')
     args = parser.parse_args()
-    population = TSPPopulation(mutation_strength=args.s, num_of_specimens=args.p, reproduction_method=ReproductionMethod(args.repr),
+    population = TSPPopulation(mutation_strength=args.s, num_of_specimens=args.p,
+                               reproduction_method=ReproductionMethod(args.repr),
                                succession=SuccessionMethod(args.suc), elite_size=args.elite_size)
     evolution = Evolution(population, args.e)
     evolution.evolve()

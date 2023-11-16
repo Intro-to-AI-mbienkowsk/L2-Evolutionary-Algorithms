@@ -27,7 +27,7 @@ DEFAULT_EPOCHS = 100
 
 
 class ReproductionMethod(enum.Enum):
-    TOURNEY = 1,
+    TOURNEY = 1
     WEIGHTED_TOURNEY = 2
 
 
@@ -35,8 +35,8 @@ DEFAULT_REPRODUCTION = ReproductionMethod.TOURNEY
 
 
 class SuccessionMethod(enum.Enum):
-    BEST_FROM_SUPERSET = 1,
-    SET_ELITE = 2,
+    BEST_FROM_SUPERSET = 1
+    SET_ELITE = 2
     GENERATIONAL = 3
 
 

@@ -1,5 +1,4 @@
 from src.population import Population
-from src.constants import ReproductionMethod, SuccessionMethod
 
 class Evolution:
     def __init__(self, population: Population, epochs: int):
